@@ -1412,7 +1412,7 @@ body:has(#screen-train.active) #app{max-width:1530px}
 <body>
 <div id="app">
   <header>
-    <h1>賽馬娘：Twinkle Days <span class="header-edition">TWINKLE DAYS · V16.4</span></h1>
+    <h1>賽馬娘：Twinkle Days <span class="header-edition">TWINKLE DAYS · V16.5</span></h1>
     <div class="header-right">
       <button id="btn-sfx" class="ghost-btn" style="padding:4px 10px; font-size:0.78rem;" onclick="toggleSfx()">音效：開</button>
       <div id="phase-indicator" class="phase-badge">標題畫面</div>
@@ -7024,6 +7024,110 @@ function registerVenus(){if(!hasArcClear()||UMAS.venus_paques)return;
   {turn:51,title:'第三章・不敗的重量',text:'在連勝的掌聲中，金星第一次坦白：她也會害怕失敗，更害怕令支持她的人失望。',choices:[{label:'告訴她，法國的孩子也喜歡她練習時的笑容',gain:'羈絆 +12、幹勁 +1',fn:()=>{G.love=Math.min(100,G.love+12);G.mood=Math.min(4,G.mood+1);return '她抱著那封小小的加油信，重新找回放鬆的笑容。';}},{label:'和她重新設計遇到逆風的配速方案',gain:'耐力 +15、智力 +13',fn:()=>{G.uma.stats.stamina+=15;G.uma.stats.wit+=13;return '「有困難就一起想辦法。」她點頭，眼裡重新亮起光。';}}]},
   {turn:68,title:'終章・自己的星光',text:'巴黎的夜景倒映在獎盃上。她回想師父的身影，慢慢說：「我想讓人記得我的名字，也記得大家一起來到這裡的事。」',choices:[{label:'為她整理一路走來的照片，送回家鄉',gain:'羈絆 +14、毅力 +12',fn:()=>{G.love=Math.min(100,G.love+14);G.uma.stats.guts+=12;return '她將照片親手交到孩子們手裡，眼眶微紅。';}},{label:'陪她為下一個世界舞台訂下目標',gain:'速度 +17、智力 +11',fn:()=>{G.uma.stats.speed+=17;G.uma.stats.wit+=11;return '「D’accord！」她帶著自信跑向新的一天。';}}]}
  ];
+  /* v16.5 — Golden Star / Venus Pâques content integrity.
+     The generic academy event renderer reads each choice's {label,reply,effects}.
+     The v16.0 unlock route used {label,gain,fn}; those were never run, and the
+     renderer inserted "undefined" into scene results. Normalize without
+     executing legacy functions and provide all per-character story fields. */
+  if(typeof NEW_CHARACTER_STORIES!=='undefined'){
+    Object.assign(NEW_CHARACTER_STORIES.venus_paques,{
+      habit:'正仔細整理訓練筆記，還把故鄉孩子們寄來的加油卡片夾在封面',
+      detail:'她提到隆尚的晨霧與觀眾席上熟悉的笑臉，笑著說每一份期待都值得珍惜',
+      event:'寫給法國的冠軍約定'
+    });
+  }
+  if(typeof V9_ENCOUNTER_LINES!=='undefined'){
+    V9_ENCOUNTER_LINES.venus_paques=[
+      '聽她說起故鄉孩子們寄來的加油卡片',
+      '詢問她為什麼如此憧憬偉大女王',
+      '和她約好總有一天要在世界舞台再次相見'
+    ];
+  }
+  if(typeof CHAPTERS!=='undefined'){
+    const chapterData=[
+      [
+        ['孩子們的歡呼聲在放學路上迴盪。金星逐一記住大家的名字，轉身朝你露出溫柔的笑容。',{love:8,wit:12}],
+        ['她蹲在跑道旁畫出隆尚的彎道和最後直線，說明天想把今天的發現全部跑給你看。',{speed:17,power:10}]
+      ],
+      [
+        ['她一遍遍回看師父的衝刺，終於說出自己真正想挑戰的地方。你們在筆記上寫下新的目標。',{love:10,wit:13}],
+        ['最後六百公尺的計時結束，她喘著氣抬頭，發現自己正逐漸跑出不同於師父的步調。',{speed:18,guts:10,energy:-7}]
+      ],
+      [
+        ['她把故鄉送來的信貼在置物櫃裡，說即使偶爾害怕失敗，也會記得有人喜歡她奔跑的模樣。',{love:12,mood:1}],
+        ['你們重新調整逆風時的配速。幾次練習後，她的呼吸和步伐終於再次穩定下來。',{stamina:15,wit:13}]
+      ],
+      [
+        ['回到故鄉後，她親手把照片交給孩子們。照片裡的每個笑臉，都讓這段旅程有了新的意義。',{love:14,guts:12}],
+        ['她把下一段世界遠征的日期圈起來，笑著對你說：「D’accord！下一次，我們也一起跑吧！」',{speed:17,wit:11}]
+      ]
+    ];
+    CHAPTERS.venus_paques=CHAPTERS.venus_paques.map((chapter,i)=>({
+      turn:chapter.turn,
+      title:chapter.title,
+      text:chapter.text,
+      choices:chapter.choices.map((choice,j)=>({
+        label:choice.label,
+        reply:chapterData[i][j][0],
+        effects:{...chapterData[i][j][1]}
+      }))
+    }));
+  }
+  if(typeof PERSONAL_EVENTS!=='undefined'){
+    PERSONAL_EVENTS.venus_paques=[
+      {id:'venus_paques_daily_letter',title:'從法國寄來的明信片',
+       text:'放學後，金星復活節收到家鄉孩子們寄來的一疊明信片。她正猶豫要先回信，還是先完成今天的訓練日誌。',
+       choices:[
+         {label:'幫她整理卡片，一起寫下回信',reply:'你們把一張張明信片攤滿桌面。她笑著說，收到大家的心意，總能讓自己更有勇氣。',effects:{love:6,wit:9}},
+         {label:'約好跑完今天的課表再一起回信',reply:'金星將卡片小心收好，跑步時也沒忘記與家鄉的約定。',effects:{speed:12,energy:-7}}
+       ]},
+      {id:'venus_paques_daily_teacher',title:'師父的最後直線',
+       text:'訓練室正在播放偉大女王的舊賽事。金星復活節連停頓的影格都不肯錯過，輕聲說希望有天能堂堂正正地超越她。',
+       choices:[
+         {label:'陪她分析師父的加速時機',reply:'兩人把每段配速畫在筆記上。金星終於看見了可以挑戰的距離。',effects:{wit:11,power:8}},
+         {label:'帶她到跑道親自嘗試',reply:'夕陽把跑道染成金色，她在最後直線加速，比上午更有自信。',effects:{speed:14,energy:-9}}
+       ]},
+      {id:'venus_paques_daily_cafe',title:'巴黎街角的小約定',
+       text:'週末的小咖啡館裡，有孩子認出金星復活節，問她下次是否還會出現在凱旋門賞。她低頭想了想，認真地答應會努力。',
+       choices:[
+         {label:'陪她向支持者一一道謝',reply:'金星逐一握住孩子們伸出的手，回程路上心情一直很好。',effects:{love:9,mood:1}},
+         {label:'回程時聊聊如何克服遠征疲勞',reply:'她把新的休息計畫寫進日誌，覺得終於有把握迎接下一次長途旅行。',effects:{stamina:11,energy:7}}
+       ]}
+    ];
+  }
+  if(typeof CAMP_EVENTS!=='undefined'){
+    CAMP_EVENTS.venus_paques=[
+      {title:'經典級夏季集訓・海風與法國的約定',
+       text:'夏季集訓第一天，金星復活節望著海平面，想起隆尚跑道旁吹過的風。她說想找到適應不同場地的方法。',
+       choices:[
+         {label:'陪她分析不同風向下的節奏',reply:'海風吹亂筆記，你們卻把最重要的配速標了出來。',effects:{wit:13,stamina:9}},
+         {label:'在沙地練習終盤加速',reply:'沙地上的腳步很吃力，她仍堅持跑完，說這能讓自己更有信心。',effects:{power:16,energy:-10}}
+       ]},
+      {title:'經典級夏季集訓・寫給師父的信',
+       text:'集訓營的夜晚，金星復活節拿著尚未寄出的信。她想向偉大女王報告近況，又擔心自己還不夠成熟。',
+       choices:[
+         {label:'鼓勵她寫下真正的想法',reply:'信紙上終於出現「我也想贏過妳」這句話。她看著文字，笑得很開心。',effects:{love:10,guts:13}},
+         {label:'陪她完成明天的訓練計畫',reply:'她把信收回口袋，決定先用明天的表現回答自己的疑問。',effects:{speed:13,wit:9}}
+       ]}
+    ];
+  }
+  if(typeof CAMP_EVENTS_SENIOR!=='undefined'){
+    CAMP_EVENTS_SENIOR.venus_paques=[
+      {title:'資深級夏季集訓・第二次迎向世界',
+       text:'又一年夏天。金星復活節回顧去年的遠征資料，發現自己已經不再只盯著師父的紀錄，也開始看見自己的跑法。',
+       choices:[
+         {label:'仔細比較今年與去年的腳步',reply:'她把進步的地方逐一圈起來，知道自己離夢想又近了一些。',effects:{wit:15,love:8}},
+         {label:'測試最後直線的極限速度',reply:'計時器停下時，她喘著氣露出笑容，說下一次還要挑戰更好的自己。',effects:{speed:18,energy:-9}}
+       ]},
+      {title:'資深級夏季集訓・留在照片裡的星光',
+       text:'集訓結束前，金星復活節邀大家拍張合照。她把照片舉到夕陽前，說想讓支持自己的人看見一路走來的夥伴。',
+       choices:[
+         {label:'幫她挑選寄回故鄉的照片',reply:'她把每張照片背面寫上日期，回想起大家一同完成的每次練習。',effects:{love:12,mood:1}},
+         {label:'和她約定下一次在賽場上拍冠軍照',reply:'金星把照片放進隨身筆記，迎著晚風再跑了一段最後直線。',effects:{guts:15,power:10,energy:-8}}
+       ]}
+    ];
+  }
+
 }
 registerVenus();
 if(typeof COURSE_PROFILES!=='undefined')COURSE_PROFILES.longchamp={label:'巴黎隆尚賽馬場（右轉・草地起伏與漫長直線）',points:[[0,48],[.13,57],[.22,70],[.34,65],[.48,35],[.62,31],[.79,40],[.92,48],[1,46]],corners:[[.23,.46],[.61,.78]]};
@@ -7218,8 +7322,8 @@ v9OpenReunion=function(){prevReunion();if(!hasArcClear())return;registerVenus();
 };
 const prevLoad=loadCareer;
 loadCareer=function(){registerVenus();prevLoad();if(G?.arcMode){ensureArc();resetArcRival(G.arcBossKey|| (G.arcClassicWon?'montjeu':'venus_paques'));renderTrainUI();}};
-function installArcButtons(){const home=document.querySelector('#screen-title .landing-copy')||document.getElementById('screen-title');if(home&&!document.getElementById('v16-achievements-btn')){const button=document.createElement('button');button.id='v16-achievements-btn';button.className='v16-arc-ach-button';button.textContent='🏆 遠征成就';button.onclick=showArcAchievements;home.appendChild(button);}const h=document.querySelector('.header-edition');if(h)h.textContent='TWINKLE DAYS · V16.4';}
-installArcButtons();document.title='賽馬娘：Twinkle Days｜L’Arc計畫 v16.4';
+function installArcButtons(){const home=document.querySelector('#screen-title .landing-copy')||document.getElementById('screen-title');if(home&&!document.getElementById('v16-achievements-btn')){const button=document.createElement('button');button.id='v16-achievements-btn';button.className='v16-arc-ach-button';button.textContent='🏆 遠征成就';button.onclick=showArcAchievements;home.appendChild(button);}const h=document.querySelector('.header-edition');if(h)h.textContent='TWINKLE DAYS · V16.5';}
+installArcButtons();document.title='賽馬娘：Twinkle Days｜L’Arc計畫 v16.5';
 window.V16_ARC_DEBUG={ARC_RACES,BOSSES,achievements,registerVenus,hasArcClear,resetArcRival};
 })();
 </script>
