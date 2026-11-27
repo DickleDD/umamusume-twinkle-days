@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>綠茵軌跡 v15｜TWINKLE LEAGUE</title>
+<title>賽馬娘：Twinkle Days｜非官方粉絲遊戲 v15.1</title>
 <style>
   :root {
     --bg-grad: linear-gradient(160deg, #e8f8ee 0%, #f4fbf7 48%, #e6f4ff 100%);
@@ -603,7 +603,7 @@ button:disabled{opacity:.48;transform:none;box-shadow:none;}
  #screen-train .avatar-frame.hero{height:108px;width:108px;}
 }
 
-/* ==================== v7 : TWINKLE LEAGUE ==================== */
+/* ==================== v7 : TWINKLE DAYS ==================== */
 #app{max-width:1260px}
 #screen-train{padding:15px 18px 22px}
 #screen-scout #scout-list{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
@@ -1061,12 +1061,17 @@ button.love-btn{background:linear-gradient(#ffaaca,#ef6ea5);border-color:#de6e9d
 @media(max-width:680px){#screen-train > .v14-support-desk .v14-mentor-row{grid-template-columns:1fr}#event-modal #em-avatar-slot .avatar-frame{width:88px;height:88px}#screen-title .v14-home-guides .v14-staff-avatar{width:66px;height:66px}#screen-scout .avatar-frame{width:108px!important;height:108px!important}#v15-photo-finish{inset:3% 2% 7%}.v15-finish-stage{padding:12px 9px;min-height:165px}.v15-finish-pair{grid-template-columns:1fr 35px 1fr;gap:3px}.v15-finish-racer img{width:76px;height:76px}.v15-finish-versus{font-size:1.4rem}}
 @media(prefers-reduced-motion:reduce){.v15-finish-stage:before{animation:none}#v15-photo-finish{transition:none}}
 
+
+/* v15.1 title refresh: preserve reading comfort on desktop and phone. */
+#screen-title .landing-copy h2{font-size:clamp(2.25rem,4.3vw,3.75rem);line-height:1.15;letter-spacing:.01em;overflow-wrap:anywhere}
+#screen-title .landing-copy h2 span{display:block;font-size:.88em;letter-spacing:-.02em}
+@media(max-width:620px){#screen-title .landing-copy h2{font-size:clamp(2.1rem,8vw,3.1rem)}}
 </style>
 </head>
 <body>
 <div id="app">
   <header>
-    <h1>綠茵軌跡 <span class="header-edition">TWINKLE LEAGUE · V12</span></h1>
+    <h1>賽馬娘：Twinkle Days <span class="header-edition">TWINKLE DAYS · V15.1</span></h1>
     <div class="header-right">
       <button id="btn-sfx" class="ghost-btn" style="padding:4px 10px; font-size:0.78rem;" onclick="toggleSfx()">音效：開</button>
       <div id="phase-indicator" class="phase-badge">標題畫面</div>
@@ -1079,7 +1084,7 @@ button.love-btn{background:linear-gradient(#ffaaca,#ef6ea5);border-color:#de6e9d
       <div class="landing-copy">
         <div class="eyebrow">TRACEN ACADEMY · FAN MADE SIMULATOR</div>
         <div class="hero-kicker">一起奔向，那片夢想中的景色。</div>
-        <h2>綠茵<span>軌跡</span></h2>
+        <h2>賽馬娘<span>：Twinkle Days</span></h2>
         <p>從訓練員的成長開始，認識學園裡各具特色的馬娘。在特雷森學園陪伴她們度過 <strong>新手級、經典級、資深級三年・72 回合</strong>，挑戰經典賽事與最後的冠軍舞台。</p>
         <div class="difficulty-panel">
           <span>遊戲難度</span>
@@ -2563,7 +2568,7 @@ function updateCareerHero() {
   document.getElementById("career-name").textContent=G.uma.name;
   document.getElementById("career-portrait").innerHTML=renderAvatarHTML(G.uma,"hero");
   const goal=currentGoal();
-  document.getElementById("career-next-goal").textContent=goal ? goal.name : "三年育成總決賽";
+  document.getElementById("career-next-goal").textContent=goal ? goal.name : "閃耀大獎賽";
   document.getElementById("career-next-count").textContent=goal ? (goal.turn===G.turn?"本回合可出賽":`還有 ${goal.turn-G.turn} 回合`) : "資深級・年終";
   renderRivalPanel();
   renderSchoolNeighbors();
@@ -2673,7 +2678,7 @@ function signUma(key) {
   setUmaSpeech("intro");
   document.getElementById("train-avatar-slot").innerHTML = renderAvatarHTML(G.uma, "sm");
   document.getElementById("train-log").innerHTML = "";
-  addTrainLog(`與 <strong style="color:${G.uma.color}">${G.uma.name}</strong> 正式簽約！這次育成為期 72 回合（新手級～資深級，各24回合），請先出賽「出道賽」，並在 資深級 12月後半前累積 3,600 名粉絲，挑戰年終總決賽！`);
+  addTrainLog(`與 <strong style="color:${G.uma.color}">${G.uma.name}</strong> 正式簽約！這次育成為期 72 回合（新手級～資深級，各24回合），請先出賽「出道賽」，並在 資深級 12月後半前累積 3,600 名粉絲，挑戰閃耀大獎賽！`);
   renderTrainUI();
 }
 
@@ -2763,10 +2768,10 @@ function renderTrainUI() {
   nextBox.innerHTML=upcoming?`<span>下一場賽事</span><strong>${upcoming.name}</strong><small>${turnToDateStr(upcoming.turn).split("・")[1]} · 還有 ${upcoming.turn-G.turn} 回合</small>`:`<span>三年賽程接近尾聲</span>`;
   if(isFinaleTurn){
     if(G.fans>=FINAL_FANS){
-      const finale={turn:71,id:"grand_finale",name:"綠茵冠軍總決賽（原創）",grade:"G1",surface:"turf",distance:u.finaleDist,course:"tokyo",rivalBase:668,prestige:1500,isFinale:true,desc:`三年累積的努力，在東京草地 ${u.finaleDist}m 的最後舞台驗收。`};
-      rList.appendChild(buildRaceRowHTML(finale,"前往三年總決賽"));
+      const finale={turn:71,id:"grand_finale",name:"閃耀大獎賽",grade:"G1",surface:"turf",distance:u.finaleDist,course:"tokyo",rivalBase:668,prestige:1500,isFinale:true,desc:`三年累積的努力，在東京草地 ${u.finaleDist}m 的最後舞台驗收。`};
+      rList.appendChild(buildRaceRowHTML(finale,"前往閃耀大獎賽"));
     } else {
-      rList.innerHTML=`<div class="race-row"><div><strong>三年育成完成！</strong><div style="color:var(--muted);">粉絲 ${G.fans.toLocaleString()} 人，距離總決賽資格 ${FINAL_FANS.toLocaleString()} 人尚有差距。可以直接觀看育成結算。</div></div><button class="primary" onclick="showEnding()">查看成果</button></div>`;
+      rList.innerHTML=`<div class="race-row"><div><strong>三年育成完成！</strong><div style="color:var(--muted);">粉絲 ${G.fans.toLocaleString()} 人，距離大獎賽資格 ${FINAL_FANS.toLocaleString()} 人尚有差距。可以直接觀看育成結算。</div></div><button class="primary" onclick="showEnding()">查看成果</button></div>`;
     }
     saveCareer(false);
     return;
@@ -2906,7 +2911,7 @@ function openFacilityModal() {
   const body = document.getElementById("im-body");
   body.innerHTML = `
     <p style="font-size:0.86rem; color:var(--muted); margin-bottom:12px;">
-      賽事獲得的訓練點數可用來升級設施；總決賽資格只看「累計粉絲」，升級不會扣除粉絲數。
+      賽事獲得的訓練點數可用來升級設施；大獎賽資格只看「累計粉絲」，升級不會扣除粉絲數。
     </p>
     <div style="display:flex; flex-direction:column; gap:10px;">
       <div class="race-row">
@@ -2949,7 +2954,7 @@ function openCalendarPreviewModal() {
       return `<div class="race-row" style="${passed}padding:7px 11px; font-size:.82rem;"><div><strong>${turnToDateStr(r.turn).split('・')[1]}</strong> <span class="tag ${r.grade==='G1'?'g1':r.grade==='G2'?'g2':'g3'}">${r.grade}</span> ${r.name}<div style="font-size:.74rem;color:var(--muted)">${r.surface==='turf'?'草地':'泥地'} ${r.distance}m · 對手強度 ${r.rivalBase}</div></div><span class="tag gold">+${r.prestige} PT</span></div>`;
     }).join("");
   }
-  rows+=`<div class="race-row"><strong>資深級 12月後半 ｜ 原創總決賽</strong><span class="tag gold">粉絲 ${FINAL_FANS.toLocaleString()} 人即可出賽</span></div>`;
+  rows+=`<div class="race-row"><strong>資深級 12月後半 ｜ 閃耀大獎賽</strong><span class="tag gold">粉絲 ${FINAL_FANS.toLocaleString()} 人即可出賽</span></div>`;
   document.getElementById("im-body").innerHTML=rows;
   document.getElementById("info-modal").classList.add("show");
 }
@@ -3912,18 +3917,18 @@ function showEnding() {
   const u = G.uma;
   const wins = G.raceResults.filter(x => x.rank === 1).length;
   const g1Wins = G.raceResults.filter(x => x.rank === 1 && x.grade === "G1").length;
-  const wonFinale = G.raceResults.some(x => x.race.includes("總決賽") && x.rank === 1);
+  const wonFinale = G.raceResults.some(x => (x.race.includes("閃耀大獎賽") || x.race.includes("總決賽")) && x.rank === 1);
 
   document.getElementById("end-avatar-slot").innerHTML = renderAvatarHTML(u, "lg");
-  document.getElementById("end-title").textContent = `${u.name} 的綠茵軌跡（${G.raceResults.length} 戰 ${wins} 勝・G1 ${g1Wins} 冠）`;
-  document.getElementById("end-prestige").textContent = `最終粉絲：${G.fans.toLocaleString()} 人 ／ 可用訓練點數：${G.prestige} PT ｜ ${wonFinale ? "稱號：綠茵冠軍總決賽王者" : "稱號：閃耀之星挑戰者"}`;
+  document.getElementById("end-title").textContent = `${u.name} 的賽馬娘：Twinkle Days（${G.raceResults.length} 戰 ${wins} 勝・G1 ${g1Wins} 冠）`;
+  document.getElementById("end-prestige").textContent = `最終粉絲：${G.fans.toLocaleString()} 人 ／ 可用訓練點數：${G.prestige} PT ｜ ${wonFinale ? "稱號：閃耀大獎賽優勝" : "稱號：閃耀之星挑戰者"}`;
 
   document.getElementById("end-record").innerHTML = `<div class="ending-rival-summary">與主要對手 ${G.mainRival?.name||"未設定"} 交鋒：${G.mainRival?.meetings||0} 次 · 你領先 ${G.mainRival?.wins||0} 次 · 對手領先 ${G.mainRival?.losses||0} 次</div><strong>年度出賽戰績：</strong>` +
     (G.raceResults.length ? G.raceResults.map(x => `${x.turn} [${x.grade}]${x.race} 第${x.rank}名`).join(" ／ ") : "無出賽紀錄");
 
   let story = `這三年 72 回合的每一場訓練、每一次坡道決斷，都已化作你們專屬的回憶。`;
-  if (wonFinale) story += `\n\n年底的「綠茵冠軍總決賽」上，${u.name} 在萬人沸騰的東京長直線率先撞線，為三年旅程畫下最耀眼的句點！`;
-  if (G.fatedOutcome === "suzuka_miracle") story += "\n\n天皇賞・秋那天，她平穩卻耀眼地越過了大欅樹，將改寫命運的景色永遠留在了綠茵之上。";
+  if (wonFinale) story += `\n\n年底的「閃耀大獎賽」上，${u.name} 在萬人沸騰的東京長直線率先撞線，為三年旅程畫下最耀眼的句點！`;
+  if (G.fatedOutcome === "suzuka_miracle") story += "\n\n天皇賞・秋那天，她平穩卻耀眼地越過了大欅樹，將改寫命運的景色永遠留在了賽道之上。";
   else if (G.fatedOutcome === "suzuka_crisis") story += "\n\n大欅樹下的波折雖帶來遺憾，但你果斷的防護判斷守住了她未來的跑道。";
   else if (G.fatedOutcome === "golshi_12b") story += "\n\n寶塚紀念那記震驚看台的閘門起立成了傳說——而能陪她瘋到最後並激發出不沉艦氣場的，全世界只有你。";
   else if (G.fatedOutcome === "spe_duel") story += "\n\n有馬紀念最終直線，特別週燃燒起日本總大將的意志，跑出了超越史實的熱血一戰。";
@@ -4296,7 +4301,7 @@ doTraining=function(action){
 // More legible layout, a conspicuous PT shop, and role-aware mandatory goals.
 function renderGoalBrief(){
  const goal=nextStoryGoal(),board=document.getElementById('career-goal-details');if(!board)return;
- if(!goal){board.innerHTML='<span class="goal-icon">★</span><div><strong>角色主線已完成</strong><small>朝年終總決賽邁進</small></div>';return;}
+ if(!goal){board.innerHTML='<span class="goal-icon">★</span><div><strong>角色主線已完成</strong><small>朝閃耀大獎賽邁進</small></div>';return;}
  const turns=goal.turn-G.turn,rank=targetRankFor(goal.id);
  const rec=goal.rivalBase,cur=G.uma.stats;
  const key=goal.distance>=2500?'stamina':goal.distance>=1800?'power':'speed';
@@ -4445,7 +4450,7 @@ function cinematicTheme(cfg){
   takarazuka:{title:'寶塚紀念',subtitle:'夏季最強王者｜熱浪中的宿命對決',color:'#ff8ec3',symbol:'夏'},
   arima:{title:'有馬紀念',subtitle:'年末大決戰｜最後直線的勝負',color:'#f6cc6d',symbol:'夢'},
   japan_cup:{title:'日本盃',subtitle:'強者齊聚｜跨越國境的榮耀',color:'#7be9a8',symbol:'世'},
-  grand_finale:{title:'綠茵冠軍總決賽',subtitle:'三年育成的終點｜把所有夢想帶往下一場',color:'#f6e591',symbol:'星'},
+  grand_finale:{title:'閃耀大獎賽',subtitle:'三年育成的終點｜把所有夢想帶往下一場',color:'#f6e591',symbol:'星'},
   asahi_2yo:{title:'朝日盃未來錦標',subtitle:'新手級首度決戰｜青春的第一座獎盃',color:'#a3e6d7',symbol:'朝'},
   hopeful:{title:'希望錦標',subtitle:'嶄露頭角｜展望下一個春天',color:'#b7e6ac',symbol:'希'},
   satsuki:{title:'皋月賞',subtitle:'經典三冠的第一道門檻',color:'#ffbd8b',symbol:'春'}
@@ -4518,7 +4523,7 @@ function exportHall(){
  const data={format:'umamusume_fan_career_hall',version:7,exportedAt:new Date().toISOString(),entries:readHall()};
  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json;charset=utf-8'});
  const url=URL.createObjectURL(blob),a=document.createElement('a');
- a.href=url;a.download=`綠茵軌跡_殿堂備份_${new Date().toISOString().slice(0,10)}.json`;
+ a.href=url;a.download=`TwinkleDays_殿堂備份_${new Date().toISOString().slice(0,10)}.json`;
  document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),5000);
 }
 function importHall(){
@@ -4553,7 +4558,7 @@ function storeHall(rows){try{localStorage.setItem(HALL_KEY,JSON.stringify(rows.s
 function endTier(){
  const wins=G.raceResults.filter(x=>x.rank===1).length;
  const g1=G.raceResults.filter(x=>x.grade==='G1'&&x.rank===1).length;
- const winFinal=G.raceResults.some(x=>x.race.includes('總決賽')&&x.rank===1);
+ const winFinal=G.raceResults.some(x=>(x.race.includes('閃耀大獎賽') || x.race.includes('總決賽'))&&x.rank===1);
  const clear=(G.goalResults||[]).filter(x=>x.cleared).length;
  const total=(ROUTE_GOAL_IDS[G.umaKey]||[]).length;
  if(winFinal&&clear>=Math.max(3,total-1)&&g1>=3)return {key:'legend',label:'傳說的三年',lead:'三年培育的努力與勝負，都成為後輩傳頌的故事。'};
@@ -4622,7 +4627,7 @@ updateContinueButton();
 
 /* V8 feature runtime */
 /* ============================================================
- * 綠茵軌跡 v8：全角色結緣／友情訓練／自動育成
+ * 賽馬娘：Twinkle Days v8：全角色結緣／友情訓練／自動育成
  * 本作數值、故事及機率均為粉絲二創遊戲設計。
  * ============================================================ */
 const V8_FIELD_KEYS=['speed','stamina','power','guts','wit'];
@@ -4893,7 +4898,7 @@ function v8AutoTick(){
    const el=document.getElementById('v8-auto-status');if(el)el.textContent='主線比賽需要手動確認，自動育成已暫停操作';return;
   }
   if(G.turn===71){
-   const finale={turn:71,id:'grand_finale',name:'綠茵冠軍總決賽（原創）',grade:'G1',surface:'turf',distance:G.uma.finaleDist,course:'tokyo',rivalBase:668,prestige:1500,isFinale:true,desc:'三年育成最終戰'};
+   const finale={turn:71,id:'grand_finale',name:'閃耀大獎賽',grade:'G1',surface:'turf',distance:G.uma.finaleDist,course:'tokyo',rivalBase:668,prestige:1500,isFinale:true,desc:'三年育成最終戰'};
    if(G.fans>=FINAL_FANS){if(cfg.autoGoals)openPreRaceModal(finale);return;}
    showEnding();return;
   }
@@ -4984,7 +4989,7 @@ startRace=function(cfg){
 
 
 /* v9 features */
-/* 綠茵軌跡 v9：結緣資格、人物對話、友情訓練平衡、再續前緣、獎盃陳列室及 G1 全螢幕演出 */
+/* 賽馬娘：Twinkle Days v9：結緣資格、人物對話、友情訓練平衡、再續前緣、獎盃陳列室及 G1 全螢幕演出 */
 const V9_VERSION='9.0';
 const V9_ENCOUNTER_LINES={
  tokai_teio:['跳下台階和她比一次單腳平衡','把筆記收起來，問她今天的腳踝還好嗎','學她的語氣喊出「帝皇絕對做得到！」'],
@@ -5267,7 +5272,7 @@ const V9_SEASONAL={
  japan_cup_classic:{theme:'stars',title:'日本盃',symbol:'世',color:'#c3f1bd'},
  hopeful:{theme:'stars',title:'希望錦標',symbol:'希',color:'#b2eada'},
  asahi_2yo:{theme:'sakura',title:'朝日盃未來錦標',symbol:'朝',color:'#ffdbaf'},
- grand_finale:{theme:'stars',title:'綠茵冠軍總決賽',symbol:'星',color:'#ffe3a2'}
+ grand_finale:{theme:'stars',title:'閃耀大獎賽',symbol:'星',color:'#ffe3a2'}
 };
 // 新增秋華賞作為經典級 10 月的可選 GⅠ，讓秋日演出能在正式賽事觸發。
 if(!SEASON_RACES.some(x=>x.id==='shuka')){
@@ -5285,7 +5290,7 @@ playCinematicIntro=function(cfg){
  if(stage.parentElement!==document.body)document.body.appendChild(stage);
  R.introRunning=true;R.paused=true;stage.className=`v9-fullscreen-intro v9-weather-${meta.theme||'stars'}`;stage.style.setProperty('--cinematic-color',meta.color);
  stage.innerHTML=`<div class="v9-stage-glow"></div><div class="v9-particles">${v9Particles(meta.theme||'stars')}</div><div class="cinematic-speedlines"></div>
- <div class="v9-cinematic-heading"><span>GⅠ RACE · TWINKLE LEAGUE</span><small>${turnToDateStr(G.turn)} · ${COURSE_PROFILES[cfg.course]?.label.split('（')[0]||cfg.course} · ${cfg.distance}m</small></div>
+ <div class="v9-cinematic-heading"><span>GⅠ RACE · TWINKLE DAYS</span><small>${turnToDateStr(G.turn)} · ${COURSE_PROFILES[cfg.course]?.label.split('（')[0]||cfg.course} · ${cfg.distance}m</small></div>
  <div class="v9-stamp">${meta.symbol||'冠'}</div><div class="v9-movie-title"><small>THE LEGEND BEGINS HERE</small><strong>${v9Html(meta.title)}</strong><p>${v9Html(meta.subtitle)}</p></div>
  <div class="v9-movie-rivals"><figure><img src="${G.uma.avatarUrl}" alt="${v9Html(G.uma.name)}"><figcaption>${v9Html(G.uma.name)}</figcaption></figure><span>VS</span>${op?`<figure><img src="${op.avatarUrl}" alt="${v9Html(op.name)}"><figcaption>${v9Html(op.name)}</figcaption></figure>`:'<strong>群雄爭霸</strong>'}</div>
  <div class="v9-movie-foot">與強敵交錯的命運，將在終點線前留下答案</div><button class="cinematic-skip" onclick="closeRaceCinematic()">跳過演出 ›</button>`;
@@ -5486,7 +5491,7 @@ const G1_RECIPES={
  arima_classic:{color:'#ffe19a',mid:'#636b83',dark:'#1d2e49',motif:'❄',label:'年終舞台，榮耀對決',english:'ARIMA KINEN'},
  japan_cup:{color:'#b5f7d0',mid:'#34796b',dark:'#182e41',motif:'✦',label:'跨越世界的頂點',english:'JAPAN CUP'},
  japan_cup_classic:{color:'#b5f7d0',mid:'#34796b',dark:'#182e41',motif:'✦',label:'跨越世界的頂點',english:'JAPAN CUP'},
- grand_finale:{color:'#fff1a9',mid:'#756d9a',dark:'#252444',motif:'✦',label:'三年旅程，最後的決戰',english:'TWINKLE GRAND FINALE'},
+ grand_finale:{color:'#fff1a9',mid:'#756d9a',dark:'#252444',motif:'✦',label:'三年旅程，最後的決戰',english:'TWINKLE GRAND PRIX'},
  hopeful:{color:'#d4ffb0',mid:'#5a9a71',dark:'#24415a',motif:'✦',label:'新手級的希望與起點',english:'HOPEFUL STAKES'},
  asahi_2yo:{color:'#c1ebfa',mid:'#4589a3',dark:'#183a55',motif:'✧',label:'向未來奔跑',english:'ASAHI HAI FUTURITY'},
  february:{color:'#d6b791',mid:'#796044',dark:'#2f2d35',motif:'✧',label:'沙塵與速度的正面交鋒',english:'FEBRUARY STAKES'},
@@ -5513,7 +5518,7 @@ playCinematicIntro=function(r){
  stage.style.setProperty('--cinematic-color',t.color);
  stage.style.setProperty('--v11-mid',t.mid);
  stage.style.setProperty('--v11-dark',t.dark);
- stage.innerHTML=`<div class="v11-intro-skyline"></div><div class="v11-intro-track"></div><div class="v11-intro-light"></div><div class="v11-intro-ribbon"></div><div class="v11-intro-seal"></div><div class="v11-particles">${cinematicParticles(t)}</div><div class="v11-intro-badge">GⅠ · ${esc(t.english)} · ${esc(turnToDateStr(G.turn))}</div><div class="v11-intro-name"><small>${esc(t.label)}</small><h2>${esc(r.name)}</h2><p>${esc(COURSE_PROFILES[r.course]?.label?.split('（')[0]||r.course)} · ${r.surface==='dirt'?'泥地':'草地'} ${r.distance}m</p></div><div class="v11-intro-rivals"><figure><img src="${ownImg}" alt="${esc(G.uma.name)}"><figcaption>${esc(G.uma.name)}</figcaption></figure><span class="v11-intro-vs">VS</span>${otherImg?`<figure><img src="${otherImg}" alt="${esc(otherName)}"><figcaption>${esc(otherName)}</figcaption></figure>`:`<figure><figcaption>強敵環伺</figcaption></figure>`}</div><div class="v11-intro-rule">WIN THE DREAM · TWINKLE LEAGUE</div><div class="v11-intro-flash"></div><button class="cinematic-skip" onclick="closeRaceCinematic()">跳過演出 ›</button>`;
+ stage.innerHTML=`<div class="v11-intro-skyline"></div><div class="v11-intro-track"></div><div class="v11-intro-light"></div><div class="v11-intro-ribbon"></div><div class="v11-intro-seal"></div><div class="v11-particles">${cinematicParticles(t)}</div><div class="v11-intro-badge">GⅠ · ${esc(t.english)} · ${esc(turnToDateStr(G.turn))}</div><div class="v11-intro-name"><small>${esc(t.label)}</small><h2>${esc(r.name)}</h2><p>${esc(COURSE_PROFILES[r.course]?.label?.split('（')[0]||r.course)} · ${r.surface==='dirt'?'泥地':'草地'} ${r.distance}m</p></div><div class="v11-intro-rivals"><figure><img src="${ownImg}" alt="${esc(G.uma.name)}"><figcaption>${esc(G.uma.name)}</figcaption></figure><span class="v11-intro-vs">VS</span>${otherImg?`<figure><img src="${otherImg}" alt="${esc(otherName)}"><figcaption>${esc(otherName)}</figcaption></figure>`:`<figure><figcaption>強敵環伺</figcaption></figure>`}</div><div class="v11-intro-rule">WIN THE DREAM · TWINKLE DAYS</div><div class="v11-intro-flash"></div><button class="cinematic-skip" onclick="closeRaceCinematic()">跳過演出 ›</button>`;
  stage.classList.add('visible');playSfx('cutin');
  if(v7IntroTimer)clearTimeout(v7IntroTimer);
  const skip=window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
@@ -5521,7 +5526,7 @@ playCinematicIntro=function(r){
  if(!skip&&!V8_AUTO?.running)setTimeout(()=>{if(R?.introRunning)playSfx('duel')},1800);
 };
 /* Remove redundant text and set version label. */
-const ver=document.querySelector('.header-edition');if(ver)ver.textContent='TWINKLE LEAGUE · V12';
+const ver=document.querySelector('.header-edition');if(ver)ver.textContent='TWINKLE DAYS · V15.1';
 })();
 
 
@@ -5665,7 +5670,7 @@ if(V13_COUNTS.total!==56||V13_COUNTS.newPlayable!==23)throw Error('v13 roster as
 
 
 for(const node of document.querySelectorAll('#screen-title .v11-home-scene,#screen-title .landing-roster'))node.remove();
-const headerVersion=document.querySelector('.header-edition');if(headerVersion)headerVersion.textContent='TWINKLE LEAGUE · V13';
+const headerVersion=document.querySelector('.header-edition');if(headerVersion)headerVersion.textContent='TWINKLE DAYS · V15.1';
 
 </script>
 
@@ -6137,7 +6142,7 @@ toggleSfx=function(){v15PriorToggleSfx();if(!sfxEnabled)v15RaceAudioStop(0);else
 const v15PrevShowScreen=showScreen;
 showScreen=function(id,badge){if(id!=='screen-race')v15RaceAudioStop(.15);return v15PrevShowScreen(id,badge);};
 
-document.querySelector('.header-edition')&&(document.querySelector('.header-edition').textContent='TWINKLE LEAGUE · V15');
+document.querySelector('.header-edition')&&(document.querySelector('.header-edition').textContent='TWINKLE DAYS · V15.1');
 
 </script>
 </body>
